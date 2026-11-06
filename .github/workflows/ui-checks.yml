@@ -2,7 +2,7 @@ name: UI v2 smoke checks
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, 'preview/ui-v2-iphone']
 permissions:
   contents: read
 jobs:
@@ -21,3 +21,6 @@ jobs:
           node --check tests/check-preview.cjs
       - name: Check source provenance and shell wiring
         run: node tests/check-preview.cjs
+      - name: Check static GitHub Pages readiness
+        if: startsWith(github.ref, 'refs/heads/preview/')
+        run: node tests/check-pages-preview.cjs

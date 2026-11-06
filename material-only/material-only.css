@@ -1,0 +1,56 @@
+/* Glass Material Kit 0.5 adapter for the exact V1 source.
+   Crucially: NO geometry, font, spacing, padding, position or DOM layout changes
+   are applied to any of the original UI controls. Only material paint changes
+   once the GPU shader is working. V1 native CSS is the fallback. */
+.glass-source-only{
+  position:fixed;
+  inset:0;
+  z-index:-10;
+  opacity:0!important;
+  pointer-events:none;
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+}
+#app.glass-kit-scene > .glass-kit-canvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:1;
+  pointer-events:none;
+}
+#app.glass-kit-scene > .app-content{
+  z-index:2;
+}
+/* Preserve the exact V1 boxes. Native borders remain a 1px layout width. */
+#app.glass-optical-ready .bubble[data-glass],
+#app.glass-optical-ready .composer[data-glass],
+#app.glass-optical-ready .dock[data-glass],
+#app.glass-optical-ready .home-continue[data-glass],
+#app.glass-optical-ready .room-note[data-glass],
+#app.glass-optical-ready .room-call a[data-glass]{
+  background:transparent!important;
+  border-color:transparent!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  box-shadow:none!important;
+}
+/* Debug mode must be opt-in and must not change V1 when off. */
+#glassDebugReadout[hidden]{display:none!important}
+#glassDebugReadout{
+  position:fixed;
+  z-index:100000;
+  left:12px;
+  top:calc(env(safe-area-inset-top) + 5px);
+  max-width:calc(100vw - 24px);
+  color:#243b41;
+  background:#f3f6f3e6;
+  border:1px solid #ffffffc7;
+  border-radius:12px;
+  padding:8px 10px;
+  font:11px/1.4 -apple-system,BlinkMacSystemFont,sans-serif;
+  pointer-events:none;
+}
+#glassDebugReadout strong{display:block;font-size:10px;margin-bottom:3px}
+#glassDebugReadout span{display:block}

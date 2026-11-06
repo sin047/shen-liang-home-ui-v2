@@ -29,3 +29,8 @@ jobs:
           if [ -f legacy-original/chat-preview.html ]; then
             node tests/check-legacy-v1-reference.cjs
           fi
+      - name: Check material-only V1 layout immutability
+        run: |
+          if [ -f material-only/chat-preview.html ]; then
+            node tests/check-material-only.cjs
+          fi

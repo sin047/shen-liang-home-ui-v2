@@ -110,6 +110,7 @@
     $("debugPanel").hidden=false;
     glass.diagnostics();
   });
+  $("closeDiagnostics").addEventListener("click",()=>{$("debugPanel").hidden=true;});
   $("measure").addEventListener("click",()=>glass.diagnostics());
   $("compare").addEventListener("click",()=>{
     compare=!compare;

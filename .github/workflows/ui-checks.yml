@@ -1,0 +1,23 @@
+name: UI v2 smoke checks
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Check browser JavaScript syntax
+        run: |
+          node --check src/material/glass-material-kit-v05.js
+          node --check src/material/glass-adapter.js
+          node --check src/app.js
+          node --check tests/check-preview.cjs
+      - name: Check source provenance and shell wiring
+        run: node tests/check-preview.cjs

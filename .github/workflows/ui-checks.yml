@@ -24,3 +24,8 @@ jobs:
       - name: Check static GitHub Pages readiness
         if: startsWith(github.ref, 'refs/heads/preview/')
         run: node tests/check-pages-preview.cjs
+      - name: Check frozen v1 public reference
+        run: |
+          if [ -f legacy-original/chat-preview.html ]; then
+            node tests/check-legacy-v1-reference.cjs
+          fi

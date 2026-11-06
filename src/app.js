@@ -111,7 +111,7 @@
     frame=0;
     if(vv&&Math.abs(vv.scale-1)>.02)return;
     const focus=document.activeElement===input&& !el("composer").hidden;
-    if(!focus)baseHeight=scene.clientHeight;
+    if(!focus && !scene.classList.contains("keyboard-open"))baseHeight=scene.clientHeight;
     const height=vv?.height||scene.clientHeight,top=vv?.offsetTop||0;
     const open=Boolean(vv&&focus&&(Math.max(baseHeight,scene.clientHeight)-height>120));
     const key=(open?"open:":"closed:")+height+":"+top;
@@ -124,6 +124,7 @@
     }else{
       scene.style.removeProperty("height");
       scene.style.removeProperty("margin-top");
+      baseHeight=scene.clientHeight;
     }
     glass.refresh();
   }

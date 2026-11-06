@@ -1,0 +1,64 @@
+/*
+ * Layout fidelity corrective pass / Home + Chat (2026-11-06).
+ * Reference: approved frozen v1 prototype on private Home main @2086756ad3e19e8fcf1b6147c6096a2e88e5a5cb.
+ * ONLY restore geometry / typography / reading rhythm. Keep CLEAR Glass Kit 0.5 unchanged.
+ */
+.home-page { max-width: 736px; font-size: 14px; line-height: 1.8; }
+.home-top .icon-button { color: var(--ui-muted); }
+.home-top svg, .home-page svg { stroke-width: 1.25; }
+.home-section-head { gap: 12px; margin-bottom: 12px; }
+.home-section-head h2 { margin: 0; font-family: inherit; font-style: normal; font-size: 12px; font-weight: 500; letter-spacing: 1px; }
+.home-today { padding: 4px 0 20px; border-bottom: 1px solid #ffffffa8; }
+.home-tasks { padding: 0; margin: 0; list-style: none; }
+.home-tasks li { min-height: 0; border: 0; display: block; }
+.home-tasks label { display: flex; align-items: center; gap: 12px; width: fit-content; min-height: 39px; font-size: 13px; }
+.home-tasks input { appearance: none; -webkit-appearance: none; width: 13px; height: 13px; flex-shrink: 0; margin: 0; border: 1px solid #a5a9ac; border-radius: 50%; background: #ffffff20; }
+.home-tasks input:checked { background: #939d98; border-color: #939d98; box-shadow: inset 0 0 0 3px #f1f3f1; }
+.home-tasks input:checked + span { color: #8c9290; text-decoration: line-through; text-decoration-color: #aab1ad; }
+.home-tasks input:focus-visible { outline: 2px solid #778c87; outline-offset: 4px; }
+.home-recent .home-section-head { margin-bottom: 3px; }
+.home-record p { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.home-room { gap: 9px; }
+.home-room svg:last-child { margin-left: auto; width: 12px; }
+
+/* V1 Chat had a 760px padded message field, not a second nested 700px column. */
+.chat-page { max-width: none; width: 100%; padding: 0; }
+.chat { max-width: 760px; margin: 0 auto; padding: 20px 22px 26px; }
+.chat-date { letter-spacing: 1.6px; color: #858c89; margin: 2px 0 27px; }
+.message { margin-bottom: 19px; }
+.bubble + .bubble { margin-top: 10px; }
+.bubble p { margin-bottom: 12px; }
+.message-tools { gap: 3px; margin-top: 7px; color: #929994; }
+.message-tools time { font-size: 9px; letter-spacing: .8px; margin: 0 7px; }
+.sample-line { display: block; }
+.thinking { width: 96%; margin: 0 0 13px; color: #747e78; }
+.thinking summary { font-size: 11px; letter-spacing: .5px; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 7px; min-height: 30px; }
+.thinking summary::-webkit-details-marker { display: none; }
+.thinking summary svg { width: 13px; height: 13px; transition: transform .2s; }
+.thinking[open] summary svg { transform: rotate(90deg); }
+.thinking-body { font-size: 13px; line-height: 1.9; padding: 13px 5px 12px 14px; border-left: 1px solid #a4aea680; margin: 8px 0; }
+.thinking-body small { font-size: 10px; color: #8a928d; display: block; margin-bottom: 5px; }
+.thinking-body p { margin: 0; }
+#stressMessages, #localMessages { max-width: 760px; padding: 0 22px; margin: 0 auto 18px; }
+.top { gap: 8px; padding: calc(8px + var(--safe-top)) 15px 9px; border-bottom: 1px solid #ffffff55; }
+.top-avatar { background: #edf0ed; border-color: #ffffffd9; }
+.status { letter-spacing: 1.2px; color: #737e79; }
+.status:before { width: 4px; height: 4px; }
+.bottom-dock .tab[aria-current="page"] { color: #46584c; background: #e5eae630; }
+.bottom-dock .tab[aria-current="page"] span { border-bottom: 0; }
+.composer { gap: 6px; }
+@media (min-width: 700px) {
+  .home-page { width: 100%; padding: 0 40px 32px; }
+  .home-hero { min-height: 325px; padding-top: 47px; }
+  .home-clock { font-size: 60px; }
+  .home-top { padding-top: calc(30px + var(--safe-top)); }
+  .home-tasks label { min-height: 40px; }
+  .chat { padding-left: 22px; padding-right: 22px; }
+}
+@media (max-width: 360px) {
+  .home-page { padding-left: 21px; padding-right: 21px; }
+  .home-clock { font-size: 46px; }
+  .home-hero { min-height: 266px; }
+  .home-section-head span { font-size: 9px; }
+  .chat { padding-left: 22px; padding-right: 22px; }
+}

@@ -47,4 +47,17 @@ for(const forbidden of [/\bfetch\s*\(/,/\bXMLHttpRequest\b/,/\bWebSocket\b/,/\bE
 assert.ok((html.match(/\sdata-glass(?=[\s>])/g)||[]).length>=10);
 assert.ok(html.indexOf('id="wallpaper"')<html.indexOf('id="glass-scene"'));
 assert.doesNotMatch(html,/<(?:script|img)\b[^>]*src=["']https?:/);
+
+/* Explicit source-derived regression gates for Home/Chat v1 geometry.
+   Structural proof only: not pixel-diff or a real WebKit screenshot. */
+const layoutFidelity=read("src/styles/v1-home-chat-parity.css");
+assert.doesNotMatch(html,/\bclass="home-continue\b/,"Old approved Home has no extra hero glass action");
+assert.match(html,/class="thinking"/,"Long-chat thinking disclosure should be present");
+assert.equal((html.slice(html.indexOf('<div class="chat" id="messages">'),html.indexOf('<div id="stressMessages">')).match(/<article class="message/g)||[]).length,4);
+assert.match(layoutFidelity,/\.home-section-head h2\s*\{[^}]*font-size:\s*12px/);
+assert.match(layoutFidelity,/\.home-tasks input\s*\{[^}]*width:\s*13px/);
+assert.match(layoutFidelity,/\.chat\s*\{[^}]*max-width:\s*760px/);
+assert.match(layoutFidelity,/\.chat\s*\{[^}]*padding:\s*20px 22px 26px/);
+assert.match(html,/href="\.\/src\/styles\/v1-home-chat-parity\.css"/);
+assert.ok(html.indexOf('id="stressToggle"')>html.indexOf('id="debugPanel"'),"Developer-only controls must not affect Chat layout");
 console.log("PASS: unchanged Glass 0.5, safe five-page layout, route wiring and DOM-only interactions");

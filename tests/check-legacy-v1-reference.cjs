@@ -11,7 +11,7 @@ const sha=buf=>crypto.createHash("sha1").update("blob "+buf.length+"\0").update(
 const html=read("chat-preview.html").toString("utf8");
 const style=html.match(/<style>([\s\S]*?)<\/style>/);
 assert.ok(style,"Original inline CSS must remain present");
-assert.equal(Buffer.byteLength(style[1],"utf8"),Buffer.byteLength(style[1],"utf8"));
+assert.equal(style[1].length,49240,"Original inline stylesheet length changed");
 assert.equal(sha(Buffer.from(style[1],"utf8")),"a7397c5cdade0e9e0cd50c3922438ff50dc157ef","Original v1 CSS changed");
 assert.match(html,/<meta name="robots" content="noindex,nofollow,noarchive">/);
 assert.match(html,/const previewStore=new Map\(\)/);
@@ -20,10 +20,11 @@ assert.match(html,/id:'demo-anchor'/);
 assert.match(html,/id:'demo-thought'/);
 assert.doesNotMatch(html,/家 \^ \^ 项目确认/);
 assert.doesNotMatch(html,/来源：10月/);
-for(const id of ["app","chatPage","homePage","memoryPage","readingPage","togetherPage","roomPage","scroller","composer","dock","settings"]){
+for(const id of ["app","chatPage","homePage","memoryPage","readingPage","togetherPage","roomPage","scroller","composer","settings"]){
  assert.match(html,new RegExp('id="'+id+'"'),"Missing original DOM: "+id);
 }
 const js=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)];
+assert.match(html,/class="dock"/,"Missing original bottom navigation");
 assert.equal(js.length,7,"Unexpected number of original inline scripts");
 js.forEach((m,i)=>new vm.Script(m[1],{filename:"v1-inline-"+i+".js"}));
 const manifest=read("manifest.webmanifest");

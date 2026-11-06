@@ -1,0 +1,12 @@
+/* Preliminary readability tokens only. Visual direction is not approved. */
+:root {
+  color-scheme:light;
+  --ui-ink:#34474b;
+  --ui-muted:#60777b;
+  --ui-paper:#e6ebe9;
+  --ui-focus:#355d62;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Segoe UI",sans-serif;
+  -webkit-text-size-adjust:100%;
+}

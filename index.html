@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-visual">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#e6ebe9">
+  <title>家 ^ ^ · UI v2 / Chat Shell</title>
+  <script>
+    document.documentElement.classList.toggle('is-standalone',
+      matchMedia('(display-mode: standalone)').matches || !!navigator.standalone);
+  </script>
+  <link rel="stylesheet" href="./src/material/glass-material-kit.css">
+  <link rel="stylesheet" href="./src/material/glass-material-kit-v05.css">
+  <link rel="stylesheet" href="./src/styles/tokens.css">
+  <link rel="stylesheet" href="./src/styles/shell.css">
+  <script defer src="./src/material/glass-material-kit-v05.js"></script>
+  <script defer src="./src/material/glass-adapter.js"></script>
+  <script defer src="./src/app.js"></script>
+</head>
+<body>
+  <div id="wallpaper" class="glass-kit-viewport-wallpaper" aria-hidden="true"></div>
+  <main id="glass-scene" class="glass-kit-scene app-shell" aria-label="家 ^ ^ 新版 UI 独立预览">
+    <div class="glass-kit-foreground app-foreground">
+      <header class="app-header glass-surface" data-glass data-glass-profile="control" data-glass-radius="23">
+        <div class="identity">
+          <div class="identity-kicker">家 ^ ^ · UI V2 / STRUCTURE PREVIEW</div>
+          <div class="identity-title" id="pageHeading">Chat <span class="identity-presence">· 在家</span></div>
+        </div>
+        <button id="debugToggle" type="button" class="header-action" aria-expanded="false" aria-controls="debugPanel">材质诊断</button>
+      </header>
+
+      <aside id="debugPanel" class="debug-panel" hidden aria-label="材质诊断，仅用于 UI 开发">
+        <div class="debug-heading">Glass Material Kit 0.5 <span id="gpuStatus" role="status">初始化中…</span></div>
+        <div id="renderMetrics" class="debug-metrics" aria-live="polite">等待首次绘制。</div>
+        <div class="debug-actions">
+          <button id="measure" type="button">更新诊断</button>
+          <button id="compare" type="button" aria-pressed="false">原图对照</button>
+          <button id="materialMode" type="button" aria-pressed="false">SMOKED 对照</button>
+          <label class="upload-label">更换背景<input type="file" id="wallpaperFile" accept="image/*"></label>
+        </div>
+        <p class="debug-note">本地模拟数据 · 不连接私有服务；CSS fallback 不是 GPU 通过。</p>
+      </aside>
+
+      <div id="contentScroll" class="content-scroll" role="region" aria-label="主内容滚动区域" tabindex="0">
+        <section id="chatPage" class="page chat-page" aria-label="Chat 独立预览">
+          <div class="date-line">UI V2 · FIRST INTERACTIVE SHELL</div>
+          <article class="message message-other">
+            <div class="speaker">Shin</div>
+            <div class="chat-bubble glass-surface" data-glass data-glass-profile="compact" data-glass-radius="23">这里先搭好骨架，等我们决定真正的样子。</div>
+          </article>
+          <article class="message message-me">
+            <div class="speaker">我</div>
+            <div class="chat-bubble glass-surface" data-glass data-glass-profile="control" data-glass-radius="23">玻璃要清透，文字还是清楚的。^ ^</div>
+          </article>
+          <article class="message message-other">
+            <div class="speaker">Shin</div>
+            <div class="chat-bubble glass-surface" data-glass data-glass-profile="control" data-glass-radius="23">背景留在原处，话和页面可以慢慢往前走。现在先验证滚动与层级。</div>
+          </article>
+
+          <section class="sample-card glass-surface" data-glass data-glass-profile="panel" data-glass-radius="28" aria-label="材质复用示例">
+            <span class="eyebrow">MATERIAL / PANEL</span>
+            <h2>One material, many surfaces.</h2>
+            <p>这是布局和折射的结构验证页，不代表新版 UI 的最终颜色、字形或组件比例。</p>
+          </section>
+
+          <div class="sample-actions">
+            <button id="stressToggle" class="sample-button glass-surface" type="button" aria-pressed="false" data-glass data-glass-profile="compact" data-glass-radius="22">增加 40 个测试气泡</button>
+          </div>
+          <div id="stressMessages" class="stress-messages" aria-live="off"></div>
+          <div id="localMessages" aria-live="polite"></div>
+          <p class="preview-notice" id="previewNotice" role="status">这是独立 UI 预览，消息仅显示在当前页面，不会发送或保存。</p>
+        </section>
+        <section id="placeholderPage" class="page placeholder-page" hidden aria-labelledby="placeholderTitle">
+          <span class="eyebrow">FUTURE PAGE / DESIGN PENDING</span>
+          <h1 id="placeholderTitle">Home</h1>
+          <p>保留已有的信息架构。此页的新版视觉和组件布局等待后续设计参考。</p>
+        </section>
+      </div>
+
+      <footer class="app-bottom" id="appBottom">
+        <form id="composer" class="composer-row" autocomplete="off">
+          <label class="composer-body glass-surface" data-glass data-glass-profile="control" data-glass-radius="25">
+            <span class="visually-hidden">本地测试文字</span>
+            <textarea id="chatInput" rows="1" maxlength="2000" placeholder="输入一段本地测试文字…" aria-label="本地测试文字"></textarea>
+          </label>
+          <button id="send" class="send-button glass-surface" type="submit" data-glass data-glass-profile="compact" data-glass-radius="24" disabled aria-label="在本地预览中添加消息">发送</button>
+        </form>
+        <nav class="bottom-dock glass-surface" data-glass data-glass-profile="control" data-glass-radius="26" aria-label="主导航">
+          <a href="#home" data-page="home">Home</a>
+          <a href="#chat" data-page="chat" aria-current="page">Chat</a>
+          <a href="#together" data-page="together">Together</a>
+          <a href="#reading" data-page="reading">Reading</a>
+          <a href="#room" data-page="room">Room</a>
+        </nav>
+      </footer>
+    </div>
+  </main>
+</body>
+</html>

@@ -19,6 +19,7 @@ html.is-standalone .app-shell{height:100lvh}
 .debug-panel{position:absolute;z-index:8;top:calc(var(--safe-top) + 68px);left:12px;right:12px;max-width:600px;margin:auto;padding:16px;border-radius:20px;background:rgba(237,243,242,.96);border:1px solid rgba(255,255,255,.65);box-shadow:0 10px 24px #2b44452b;max-height:65%;overflow:auto}
 .debug-heading{display:flex;align-items:center;justify-content:space-between;gap:9px;font-weight:650;font-size:12px}
 .debug-heading span{font-size:10px;font-weight:400}
+.debug-heading button{background:transparent;border:0;font-size:21px;line-height:1;width:32px;height:32px;border-radius:50%}
 .debug-metrics{font-size:11px;line-height:1.7;margin-top:11px;font-variant-numeric:tabular-nums}
 .debug-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .debug-actions button,.upload-label{background:#ffffffe0;border:1px solid #c7d7d7;color:var(--ui-ink);padding:9px 11px;border-radius:12px;font-size:12px}

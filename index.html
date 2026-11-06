@@ -1,101 +1,190 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-visual">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#e6ebe9">
-  <title>家 ^ ^ · UI v2 / Chat Shell</title>
-  <script>
-    document.documentElement.classList.toggle('is-standalone',
-      matchMedia('(display-mode: standalone)').matches || !!navigator.standalone);
-  </script>
-  <link rel="stylesheet" href="./src/material/glass-material-kit.css">
-  <link rel="stylesheet" href="./src/material/glass-material-kit-v05.css">
-  <link rel="stylesheet" href="./src/styles/tokens.css">
-  <link rel="stylesheet" href="./src/styles/shell.css">
-  <script defer src="./src/material/glass-material-kit-v05.js"></script>
-  <script defer src="./src/material/glass-adapter.js"></script>
-  <script defer src="./src/app.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-visual">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="家 ^ ^ · UI v2 预览">
+<meta name="theme-color" content="#e6ebe9">
+<title>家 ^ ^ · Glass UI v2</title>
+<script>document.documentElement.classList.toggle("is-standalone",matchMedia("(display-mode: standalone)").matches||!!navigator.standalone);</script>
+<link rel="stylesheet" href="./src/material/glass-material-kit.css">
+<link rel="stylesheet" href="./src/material/glass-material-kit-v05.css">
+<link rel="stylesheet" href="./src/styles/tokens.css">
+<link rel="stylesheet" href="./src/styles/shell.css">
+<link rel="stylesheet" href="./src/styles/legacy-layout.css">
+<script defer src="./src/material/glass-material-kit-v05.js"></script>
+<script defer src="./src/material/glass-adapter.js"></script>
+<script defer src="./src/app.js"></script>
 </head>
 <body>
-  <div id="wallpaper" class="glass-kit-viewport-wallpaper" aria-hidden="true"></div>
-  <main id="glass-scene" class="glass-kit-scene app-shell" aria-label="家 ^ ^ 新版 UI 独立预览">
-    <div class="glass-kit-foreground app-foreground">
-      <header class="app-header glass-surface" data-glass data-glass-profile="control" data-glass-radius="23">
-        <div class="identity">
-          <div class="identity-kicker">家 ^ ^ · UI V2 / STRUCTURE PREVIEW</div>
-          <div class="identity-title" id="pageHeading">Chat <span class="identity-presence">· 在家</span></div>
-        </div>
-        <button id="debugToggle" type="button" class="header-action" aria-expanded="false" aria-controls="debugPanel">材质诊断</button>
-      </header>
+<svg class="icon-symbols" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 10.5 12 3.5l8.5 7v9.5H3.5zM9 20v-7h6v7"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5.5h16v11H9l-5 4z"/></symbol>
+<symbol id="i-together" viewBox="0 0 24 24"><path d="M12 20s-9-5.6-9-11a4.7 4.7 0 0 1 9-1.7A4.7 4.7 0 0 1 21 9c0 5.4-9 11-9 11Z"/></symbol>
+<symbol id="i-reading" viewBox="0 0 24 24"><path d="M12 20c-2.3-2-5.4-3-9-3V4c4 0 6.8.9 9 3 2.2-2.1 5-3 9-3v13c-3.6 0-6.7 1-9 3ZM12 7v13"/></symbol>
+<symbol id="i-room" viewBox="0 0 24 24"><path d="M4 20V8l8-5 8 5v12M9 20v-8h6v8"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="m14.8 4.5-7.5 7.5 7.5 7.5"/></symbol>
+<symbol id="i-chevron" viewBox="0 0 24 24"><path d="m7 9.5 5 5 5-5"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><path d="M6 3.5 9.5 7l-2 2.5a18 18 0 0 0 7 7l2.5-2 3.5 3.5-2 3c-7.5.7-15.2-7-15-15z"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/></symbol>
+<symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M6 11v1a6 6 0 0 0 12 0v-1M12 18v3M8 21h8"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="m4 11 15-7-4 16-3-7-8-2Zm8 2 7-9"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M5 5 19 19M19 5 5 19"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/></symbol>
+</svg>
+<div id="wallpaper" class="glass-kit-viewport-wallpaper" aria-hidden="true"></div>
+<main id="glass-scene" class="glass-kit-scene app-shell" data-page="home" aria-label="家 ^ ^ 新版 UI 对照开发预览">
+<div class="app-foreground glass-kit-foreground" id="appContent">
+<header class="top" id="chatHeader">
+  <button class="icon-button" id="backHome" type="button" aria-label="返回 Home"><svg><use href="#i-back"/></svg></button>
+  <button class="top-avatar" id="avatarButton" type="button" aria-label="更换本地预览头像"><span id="avatarLetter">S</span><img id="avatarImage" alt="" hidden></button>
+  <div class="heading">
+    <button class="conversation-toggle" id="conversationOpen" type="button" aria-haspopup="dialog" aria-controls="conversationDialog"><span id="conversationName">𝓢𝓱𝓲𝓷</span><svg><use href="#i-chevron"/></svg></button>
+    <div class="status">online · 在家</div>
+  </div>
+  <button class="icon-button" id="callOpen" type="button" aria-label="通话预览" aria-haspopup="dialog"><svg><use href="#i-phone"/></svg></button>
+  <button class="icon-button appearance-button" id="appearance" type="button" aria-label="文字与玻璃外观设置">Aa</button>
+</header>
 
-      <aside id="debugPanel" class="debug-panel" hidden aria-label="材质诊断，仅用于 UI 开发">
-        <div class="debug-heading">Glass Material Kit 0.5 <span id="gpuStatus" role="status">初始化中…</span></div>
-        <div id="renderMetrics" class="debug-metrics" aria-live="polite">等待首次绘制。</div>
-        <div class="debug-actions">
-          <button id="measure" type="button">更新诊断</button>
-          <button id="compare" type="button" aria-pressed="false">原图对照</button>
-          <button id="materialMode" type="button" aria-pressed="false">SMOKED 对照</button>
-          <label class="upload-label">更换背景<input type="file" id="wallpaperFile" accept="image/*"></label>
-        </div>
-        <p class="debug-note">本地模拟数据 · 不连接私有服务；CSS fallback 不是 GPU 通过。</p>
-      </aside>
-
-      <div id="contentScroll" class="content-scroll" role="region" aria-label="主内容滚动区域" tabindex="0">
-        <section id="chatPage" class="page chat-page" aria-label="Chat 独立预览">
-          <div class="date-line">UI V2 · FIRST INTERACTIVE SHELL</div>
-          <article class="message message-other">
-            <div class="speaker">Shin</div>
-            <div class="chat-bubble glass-surface" data-glass data-glass-profile="compact" data-glass-radius="23">这里先搭好骨架，等我们决定真正的样子。</div>
-          </article>
-          <article class="message message-me">
-            <div class="speaker">我</div>
-            <div class="chat-bubble glass-surface" data-glass data-glass-profile="control" data-glass-radius="23">玻璃要清透，文字还是清楚的。^ ^</div>
-          </article>
-          <article class="message message-other">
-            <div class="speaker">Shin</div>
-            <div class="chat-bubble glass-surface" data-glass data-glass-profile="control" data-glass-radius="23">背景留在原处，话和页面可以慢慢往前走。现在先验证滚动与层级。</div>
-          </article>
-
-          <section class="sample-card glass-surface" data-glass data-glass-profile="panel" data-glass-radius="28" aria-label="材质复用示例">
-            <span class="eyebrow">MATERIAL / PANEL</span>
-            <h2>One material, many surfaces.</h2>
-            <p>这是布局和折射的结构验证页，不代表新版 UI 的最终颜色、字形或组件比例。</p>
-          </section>
-
-          <div class="sample-actions">
-            <button id="stressToggle" class="sample-button glass-surface" type="button" aria-pressed="false" data-glass data-glass-profile="compact" data-glass-radius="22">增加 40 个测试气泡</button>
-          </div>
-          <div id="stressMessages" class="stress-messages" aria-live="off"></div>
-          <div id="localMessages" aria-live="polite"></div>
-          <p class="preview-notice" id="previewNotice" role="status">这是独立 UI 预览，消息仅显示在当前页面，不会发送或保存。</p>
-        </section>
-        <section id="placeholderPage" class="page placeholder-page" hidden aria-labelledby="placeholderTitle">
-          <span class="eyebrow">FUTURE PAGE / DESIGN PENDING</span>
-          <h1 id="placeholderTitle">Home</h1>
-          <p>保留已有的信息架构。此页的新版视觉和组件布局等待后续设计参考。</p>
-        </section>
-      </div>
-
-      <footer class="app-bottom" id="appBottom">
-        <form id="composer" class="composer-row" autocomplete="off">
-          <label class="composer-body glass-surface" data-glass data-glass-profile="control" data-glass-radius="25">
-            <span class="visually-hidden">本地测试文字</span>
-            <textarea id="chatInput" rows="1" maxlength="2000" placeholder="输入一段本地测试文字…" aria-label="本地测试文字"></textarea>
-          </label>
-          <button id="send" class="send-button glass-surface" type="submit" data-glass data-glass-profile="compact" data-glass-radius="24" disabled aria-label="在本地预览中添加消息">发送</button>
-        </form>
-        <nav class="bottom-dock glass-surface" data-glass data-glass-profile="control" data-glass-radius="26" aria-label="主导航">
-          <a href="#home" data-page="home">Home</a>
-          <a href="#chat" data-page="chat" aria-current="page">Chat</a>
-          <a href="#together" data-page="together">Together</a>
-          <a href="#reading" data-page="reading">Reading</a>
-          <a href="#room" data-page="room">Room</a>
-        </nav>
-      </footer>
+<div class="content-scroll" id="contentScroll" role="region" aria-label="主要内容" tabindex="0">
+  <section class="page home-page" id="homePage" aria-label="家的首页">
+    <header class="home-top"><time class="home-date" id="homeDate">NOV 06</time>
+      <div class="home-actions"><a class="icon-button" href="#chat" aria-label="返回聊天"><svg><use href="#i-chat"/></svg></a><button class="icon-button" id="homeSearchButton" type="button" aria-label="搜索此预览"><svg><use href="#i-search"/></svg></button></div>
+    </header>
+    <div class="home-hero"><time class="home-clock" id="homeClock">09:30</time><p class="home-greeting" id="homeGreeting">回来了。</p>
+      <a class="home-continue glass-surface" data-glass data-glass-radius="21" data-glass-profile="control" href="#chat"><span><strong>继续聊天</strong><small>在熟悉的位置接着说</small></span><svg><use href="#i-chevron"/></svg></a>
     </div>
-  </main>
+    <section class="home-today" aria-labelledby="todayTitle">
+      <div class="home-section-head"><h2 id="todayTitle">Today</h2><span id="homeTodayDate">11月6日 · 周五</span></div>
+      <ul class="home-tasks">
+        <li><label><input type="checkbox" data-home-task="tidy"><span>整理一点心情</span></label></li>
+        <li><label><input type="checkbox" data-home-task="read"><span>看一点书</span></label></li>
+        <li><label><input type="checkbox" data-home-task="note"><span>留几句话</span></label></li>
+      </ul>
+    </section>
+    <section class="home-recent" aria-labelledby="homeRecentTitle">
+      <div class="home-section-head"><h2 id="homeRecentTitle">最近</h2></div>
+      <a class="home-record" href="#chat"><div class="home-record-top"><strong>最近聊天</strong><time id="homeRecentTime">预览</time></div><p id="homeRecentChat">现在是一份独立的界面样稿。</p></a>
+      <a class="home-record" href="#room/archive/memory"><div class="home-record-top"><strong>Memory</strong><span class="record-meta">尚无数据</span></div><p>留给真正的私人记忆。</p></a>
+      <a class="home-record" href="#reading"><div class="home-record-top"><strong>Reading</strong><span class="record-meta">阅读角</span></div><p>从这里继续阅读。</p></a>
+    </section>
+    <a class="home-room" href="#room"><svg><use href="#i-room"/></svg><span>去房间坐坐</span><svg><use href="#i-chevron"/></svg></a>
+  </section>
+
+  <section class="page chat-page" id="chatPage" aria-label="聊天" hidden>
+    <div class="chat" id="messages">
+      <div class="chat-date">NOV 06 · 预览</div>
+      <article class="message user"><div class="bubble glass-surface" data-glass data-glass-radius="20" data-glass-profile="compact">今天想看看新版的家。</div><div class="message-tools"><time>09:27</time><button class="copy" aria-label="复制消息" type="button"><svg><use href="#i-copy"/></svg></button></div></article>
+      <article class="message"><div class="byline"><div class="avatar-mini">S</div><span class="name">Shin</span></div><div class="bubble glass-surface" data-glass data-glass-radius="20" data-glass-profile="compact">那就从熟悉的布局开始，把玻璃和细节一点点换好。</div><div class="bubble glass-surface" data-glass data-glass-radius="20" data-glass-profile="control"><p>页面还是原来的节奏。背景停在屏幕上，文字和控件保持清晰，光线透过每一块玻璃。</p></div><div class="message-tools"><button class="copy" type="button" aria-label="复制消息"><svg><use href="#i-copy"/></svg></button><time>09:28</time></div></article>
+      <article class="message user"><div class="bubble glass-surface" data-glass data-glass-radius="20" data-glass-profile="compact">这样就很好 ^ ^</div></article>
+    </div>
+    <div class="chat-stress"><button type="button" id="stressToggle" class="stress-button glass-surface" data-glass data-glass-profile="compact" data-glass-radius="20" aria-pressed="false">增加 40 条滚动测试</button><p>此处为本地模拟内容，不连接模型或私人历史。</p></div>
+    <div id="stressMessages"></div><div id="localMessages"></div>
+  </section>
+
+  <section class="page together-page" id="togetherPage" aria-label="一起做些事" hidden>
+    <div id="togetherOverview">
+      <header class="together-top"><h1>Together</h1><p>在同一段时间里，做些喜欢的事。</p></header>
+      <div class="listen-hero">
+        <div class="together-pair" aria-label="两位成员的视觉位置"><span class="pair-avatar">S</span><span class="pair-link" aria-hidden="true"><i></i></span><span class="pair-avatar pair-other">♡</span></div>
+        <div class="together-record" aria-label="唱片装饰"><div class="record-base"></div><div class="record-center"><span>♪</span></div></div>
+        <h2>一起听</h2><p>把喜欢的声音放在同一片空间里。</p>
+      </div>
+      <nav class="together-entries" aria-label="共同活动">
+        <a class="together-entry" href="#together/listen"><span><h2>Listen</h2><p>一起听一首歌</p></span><svg><use href="#i-chevron"/></svg></a>
+        <a class="together-entry" href="#together/play"><span><h2>Play</h2><p>一起玩点什么</p></span><svg><use href="#i-chevron"/></svg></a>
+        <a class="together-entry" href="#together/watch"><span><h2>Watch</h2><p>挑一部想看的电影</p></span><svg><use href="#i-chevron"/></svg></a>
+      </nav>
+    </div>
+    <div id="togetherDetail" class="subpage" hidden><a href="#together" class="back-link"><svg><use href="#i-back"/></svg> Together</a><div class="together-detail-card"><span class="eyebrow">TOGETHER / PREVIEW</span><h1 id="activityTitle">Listen</h1><p id="activityCopy">活动界面正在沿用原版信息结构逐步移植，暂不连接外部服务。</p><div class="glass-surface activity-placeholder" data-glass data-glass-radius="27" data-glass-profile="panel">留给真正的共同活动</div></div></div>
+  </section>
+
+  <section class="page reading-page" id="readingPage" aria-label="阅读角" hidden>
+    <div id="readingOverview">
+      <header class="reading-top"><div><h1>Reading</h1><p>在这里，继续慢慢读。</p></div><button type="button" class="icon-button" id="readingSearchButton" aria-label="搜索预览文章"><svg><use href="#i-search"/></svg></button></header>
+      <section class="reading-continue"><div class="reading-label">CONTINUE READING</div><a href="#reading/sample-one"><h2>关于一些缓慢的下午</h2><p>从窗边的光开始，把未读完的那一页翻开。</p><div class="reading-meta"><span>随笔 · 约 3 分钟</span><span>继续阅读 →</span></div></a></section>
+      <section class="reading-library"><div class="reading-section-head"><h2>收藏与阅读</h2><span>LOCAL PREVIEW</span></div><a class="reading-row" href="#reading/sample-two"><span><strong>留一盏小灯</strong><small>给夜晚的一小段记录</small></span><span class="reading-arrow">↗</span></a><a class="reading-row" href="#reading/sample-three"><span><strong>晴天的边缘</strong><small>一篇短短的观察</small></span><span class="reading-arrow">↗</span></a></section>
+      <p class="preview-annotation">仅展示虚构阅读标题；真实收藏和阅读记录不在本公共仓库存储。</p>
+    </div>
+    <article id="readingDetail" class="reading-detail" hidden><a class="back-link" href="#reading"><svg><use href="#i-back"/></svg> Reading</a><div class="reading-paper glass-surface" data-glass data-glass-radius="28" data-glass-profile="panel"><div class="eyebrow">LOCAL SAMPLE / ARTICLE</div><h1 id="readingTitle"></h1><p>窗边的光安静地落下。翻过一页，还有下一页，今天不需要赶时间。</p><p>这是一篇仅供测试排版和玻璃材质的虚构短文。以后真正的阅读内容仍由家自己保存。</p></div></article>
+  </section>
+
+  <section class="page room-page" id="roomPage" aria-label="房间" hidden>
+    <div id="roomOverview">
+      <header class="room-top"><h1>Room</h1><button type="button" id="roomSettings" class="icon-button" aria-label="打开外观设置">···</button></header>
+      <section class="room-presence"><div class="room-portrait">S</div><span class="room-status">ONLINE · 在家</span><h2>Shin</h2><p>这里，留一个安静的位置。</p></section>
+      <nav class="room-links" aria-label="房间中的功能">
+        <a href="#room/archive" class="room-link"><div><strong>Archive</strong><small>记忆、世界与提示词</small></div><svg><use href="#i-chevron"/></svg></a>
+        <a href="#together" class="room-link"><div><strong>Together</strong><small>回到共同活动</small></div><svg><use href="#i-chevron"/></svg></a>
+        <a href="#reading" class="room-link"><div><strong>Reading</strong><small>去阅读角坐坐</small></div><svg><use href="#i-chevron"/></svg></a>
+      </nav>
+    </div>
+    <div id="roomArchive" class="subpage" hidden><a href="#room" class="back-link"><svg><use href="#i-back"/></svg> Room</a><h1>Archive</h1><p class="muted">留下来的东西，慢慢收在这里。</p><nav class="room-links">
+      <a class="room-link" href="#room/archive/memory"><div><strong>Memory</strong><small>私人记忆档案</small></div><svg><use href="#i-chevron"/></svg></a>
+      <a class="room-link" href="#room/archive/world"><div><strong>World</strong><small>世界书文档</small></div><svg><use href="#i-chevron"/></svg></a>
+      <a class="room-link" href="#room/archive/prompt"><div><strong>Prompt</strong><small>提示词文档</small></div><svg><use href="#i-chevron"/></svg></a>
+    </nav></div>
+    <div id="roomDocument" class="subpage" hidden><a href="#room/archive" class="back-link"><svg><use href="#i-back"/></svg> Archive</a><h1 id="roomDocumentTitle">World</h1><p class="muted">文档列表结构已预留；尚未接入真实的私人资料与编辑接口。</p><div class="empty-surface glass-surface" data-glass data-glass-profile="panel" data-glass-radius="25">还没有公开的示例文档。</div></div>
+  </section>
+
+  <section class="page memory-page" id="memoryPage" aria-label="Memory 私人档案" hidden>
+    <a class="back-link memory-back" href="#room/archive"><svg><use href="#i-back"/></svg> Archive</a>
+    <header class="memory-top"><div class="eyebrow">MEMORY</div><h1>留下来的</h1><p class="muted">属于 Room 的私人记忆空间</p></header>
+    <div class="memory-search"><input id="memorySearch" type="search" placeholder="找一句话、一段记录…" aria-label="搜索预览记忆"></div>
+    <nav class="memory-filters" aria-label="记忆筛选"><button type="button" data-memory-filter="all" aria-pressed="true">全部</button><button type="button" data-memory-filter="pinned" aria-pressed="false">锚点</button><button type="button" data-memory-filter="fragments" aria-pressed="false">片段</button><button type="button" data-memory-filter="archived" aria-pressed="false">归档</button></nav>
+    <div class="empty-surface memory-empty glass-surface" data-glass data-glass-profile="panel" data-glass-radius="25" id="memoryEmpty">这是公开版布局预览，不包含任何真实或模拟的个人记忆。</div>
+  </section>
+</div>
+
+<footer class="app-bottom" id="appBottom">
+  <form id="composer" class="composer glass-surface" data-glass data-glass-profile="control" data-glass-radius="28" autocomplete="off">
+    <button class="icon-button" type="button" id="add" aria-label="添加本地图片"><svg><use href="#i-plus"/></svg></button>
+    <div class="composer-content"><div id="attachmentDraft" class="attachment-draft" hidden><img id="attachmentPreview" alt="本地预览图片"><button id="attachmentRemove" type="button" aria-label="移除图片">×</button></div><textarea id="chatInput" rows="1" maxlength="2000" placeholder="慢慢说，我在听…" aria-label="本地测试消息"></textarea></div>
+    <button class="icon-button" type="button" id="voice" aria-label="语音预览说明"><svg><use href="#i-mic"/></svg></button>
+    <button class="icon-button send-button" type="submit" id="send" aria-label="添加本地消息" disabled><svg><use href="#i-send"/></svg></button>
+  </form>
+  <nav class="bottom-dock glass-surface" data-glass data-glass-profile="control" data-glass-radius="25" aria-label="主导航">
+    <a class="tab" href="#home" data-page="home"><svg><use href="#i-home"/></svg><span>Home</span></a>
+    <a class="tab" href="#chat" data-page="chat"><svg><use href="#i-chat"/></svg><span>Chat</span></a>
+    <a class="tab" href="#together" data-page="together"><svg><use href="#i-together"/></svg><span>Together</span></a>
+    <a class="tab" href="#reading" data-page="reading"><svg><use href="#i-reading"/></svg><span>Reading</span></a>
+    <a class="tab" href="#room" data-page="room"><svg><use href="#i-room"/></svg><span>Room</span></a>
+  </nav>
+</footer>
+
+<aside class="debug-panel" id="debugPanel" hidden aria-label="材质开发诊断">
+  <div class="debug-heading">Glass Material Kit 0.5 <span id="gpuStatus" role="status">初始化中…</span></div>
+  <div id="renderMetrics" class="debug-metrics" aria-live="polite">等待绘制</div>
+  <div class="debug-actions"><button type="button" id="measure">更新诊断</button><button type="button" id="compare" aria-pressed="false">原图对照</button><button type="button" id="materialMode" aria-pressed="false">SMOKED 对照</button><label class="upload-label">从相册换背景<input type="file" id="wallpaperFile" accept="image/*"></label></div>
+  <p class="debug-note">GPU / CSS fallback 分开验收 · 图片只留在当前页面</p>
+</aside>
+<div class="toast" id="toast" role="status"></div>
+</div>
+</main>
+
+<dialog id="appearanceDialog" class="soft-dialog" aria-labelledby="appearanceTitle">
+  <header class="dialog-head"><h2 id="appearanceTitle">这一页的光线</h2><button type="button" class="icon-button dialog-close" data-close-dialog aria-label="关闭"><svg><use href="#i-x"/></svg></button></header>
+  <p>材质使用 Glass Kit 0.5；新版本先保留 CLEAR 基线，再慢慢调整组件。</p>
+  <label class="setting-line"><span>文字大小 <output id="fontValue">14px</output></span><input type="range" id="fontSize" min="14" max="20" value="14"></label>
+  <button type="button" class="dialog-action" id="openDiagnostics">打开 GPU 诊断与换背景</button>
+</dialog>
+<dialog id="homeSearchDialog" class="soft-dialog" aria-labelledby="searchTitle">
+  <header class="dialog-head"><h2 id="searchTitle">找一找</h2><button type="button" class="icon-button dialog-close" data-close-dialog aria-label="关闭"><svg><use href="#i-x"/></svg></button></header>
+  <input type="search" class="dialog-input" id="homeSearchInput" placeholder="搜索本地预览的文字…" aria-label="搜索预览内容">
+  <div id="homeSearchResults" class="search-results" aria-live="polite"></div>
+</dialog>
+<dialog id="conversationDialog" class="soft-dialog" aria-labelledby="conversationTitle">
+  <header class="dialog-head"><h2 id="conversationTitle">聊天会话</h2><button type="button" class="icon-button dialog-close" data-close-dialog aria-label="关闭"><svg><use href="#i-x"/></svg></button></header>
+  <p>目前只有一段本地预览会话，未连接私人聊天数据。</p><button type="button" class="dialog-action" id="resumeConversation">返回预览聊天</button>
+</dialog>
+<dialog id="callDialog" class="soft-dialog" aria-labelledby="callTitle">
+  <header class="dialog-head"><h2 id="callTitle">Call</h2><button type="button" class="icon-button dialog-close" data-close-dialog aria-label="关闭"><svg><use href="#i-x"/></svg></button></header>
+  <p>保留原版通话入口。实时语音仍属独立开发阶段，此处不会启动通话。</p>
+</dialog>
+<input id="avatarFile" type="file" accept="image/*" hidden>
+<input id="messageFile" type="file" accept="image/*" hidden>
 </body>
 </html>

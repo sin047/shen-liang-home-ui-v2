@@ -20,3 +20,13 @@
 - Original PWA/safe-area/VisualViewport input handling should be re-used selectively and independently validated on iPhone.
 - New v2 repo is Public: do not bulk publish private-repo files, user icons/assets, personal examples or any actual data. Selective, audited layout/components with synthetic content only.
 - At this step this entry records a **design/implementation decision**, not completion of the old UI port; no production/API/Pages deployment is authorized.
+
+
+## 2026-11-06 — v1 layout reconstruction in stacked branch
+
+- feat/restore-home-v1-layout branches from PR #1 head e8569a16bb78bcc4b09563d09b15d438e8b3806b.
+- Replaces blank/generic scaffold with five original page layouts (Home clock/Today/recent; Chat header and composer; Together avatars/record/Listen-Play-Watch; Reading continue/articles; Room presence/Archive plus Memory/World/Prompt).
+- Native dialog/route/checkbox/local Chat input and image/temporary avatar/copy/search/font controls. No fetch, real storage, API, auth, external asset or private history.
+- Kit 0.5 optical files unchanged. CSS layout independent from material adapter.
+- Layout is a structural parity step, **not final visual approval or Safari test**; read docs/UI_V1_LAYOUT_PARITY.md for the known missing original features.
+- No merge, GitHub Pages deployment or original Home repo modification.

@@ -45,3 +45,8 @@ Use the original approved UI as **the layout/interaction reference**, not the mi
 ## Visual direction
 
 Maintain the original Home layout and atmosphere; iterate on optical glass, shapes, component arrangement, spacing and subtle hierarchy. Exact per-component treatments await iterative owner screenshots and approval.
+
+
+## Selective original UI layout port
+
+The stacked feat/restore-home-v1-layout branch now uses the approved v1 five-page structure as the layout reference (not the earlier Chat-only smoke scaffold). Read docs/UI_V1_LAYOUT_PARITY.md for feature parity and omitted backend/private functions. Exact colors and new component geometry are still subject to owner screenshots and approval; no production integration implied.

@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="./src/styles/shell.css">
 <link rel="stylesheet" href="./src/styles/legacy-layout.css">
 <link rel="stylesheet" href="./src/styles/v1-home-chat-parity.css">
+<link rel="stylesheet" href="./src/styles/settings-api.css">
 <script defer src="./src/material/glass-material-kit-v05.js"></script>
 <script defer src="./src/material/glass-adapter.js"></script>
 <script defer src="./src/app.js"></script>
@@ -135,7 +136,7 @@
 
   <section class="page room-page" id="roomPage" aria-label="房间" hidden>
     <div id="roomOverview">
-      <header class="room-top"><h1>Room</h1><button type="button" id="roomSettings" class="icon-button" aria-label="打开外观设置">···</button></header>
+      <header class="room-top"><h1>Room</h1><button type="button" id="roomSettings" class="icon-button" aria-label="打开设置">···</button></header>
       <section class="room-presence"><div class="room-portrait">S</div><span class="room-status">ONLINE · 在家</span><h2>Shin</h2><p>这里，留一个安静的位置。</p></section>
       <nav class="room-links" aria-label="房间中的功能">
         <a href="#room/archive" class="room-link"><div><strong>Archive</strong><small>记忆、世界与提示词</small></div><svg><use href="#i-chevron"/></svg></a>
@@ -158,6 +159,56 @@
     <nav class="memory-filters" aria-label="记忆筛选"><button type="button" data-memory-filter="all" aria-pressed="true">全部</button><button type="button" data-memory-filter="pinned" aria-pressed="false">锚点</button><button type="button" data-memory-filter="fragments" aria-pressed="false">片段</button><button type="button" data-memory-filter="archived" aria-pressed="false">归档</button></nav>
     <div class="empty-surface memory-empty glass-surface" data-glass data-glass-profile="panel" data-glass-radius="25" id="memoryEmpty">这是公开版布局预览，不包含任何真实或模拟的个人记忆。</div>
   </section>
+
+<section class="page settings-page" id="settingsPage" aria-label="设置" hidden>
+  <div id="settingsOverview">
+    <a class="back-link" href="#room"><svg><use href="#i-back"/></svg> Room</a>
+    <header class="settings-heading"><div class="eyebrow">HOME / SETTINGS</div><h1>Settings</h1><p class="muted">把家的连接与偏好，安静地收在这里。</p></header>
+    <section class="settings-section" aria-labelledby="settingsPersonalTitle">
+      <h2 id="settingsPersonalTitle">个性化</h2>
+      <button type="button" class="settings-row" id="settingsAppearance"><span><strong>外观与背景</strong><small>页面材质、背景和文字</small></span><span class="settings-row-meta">调整</span><svg><use href="#i-chevron"/></svg></button>
+    </section>
+    <section class="settings-section" aria-labelledby="settingsConnectionTitle">
+      <h2 id="settingsConnectionTitle">连接与模型</h2>
+      <a class="settings-row" href="#settings/api"><span><strong>API 与模型</strong><small>OpenAI 兼容、Anthropic 与自定义接口</small></span><span class="settings-row-meta" id="apiSettingsSummary">尚未配置</span><svg><use href="#i-chevron"/></svg></a>
+    </section>
+    <section class="settings-section" aria-labelledby="settingsVoiceTitle">
+      <h2 id="settingsVoiceTitle">声音与通话</h2>
+      <div class="settings-row is-static"><span><strong>语音与通话</strong><small>语音服务和通话偏好</small></span><span class="settings-row-meta">稍后接入</span></div>
+    </section>
+    <section class="settings-section" aria-labelledby="settingsDataTitle">
+      <h2 id="settingsDataTitle">账户与数据</h2>
+      <div class="settings-row is-static"><span><strong>账户与隐私</strong><small>登录状态、数据与安全设置</small></span><span class="settings-row-meta">稍后接入</span></div>
+    </section>
+  </div>
+  <div id="apiSettingsView" hidden>
+    <a class="back-link" href="#settings"><svg><use href="#i-back"/></svg> Settings</a>
+    <header class="settings-heading api-heading"><div class="eyebrow">CONNECTIONS / MODELS</div><h1>API 与模型</h1><p class="muted">为聊天添加自己的模型服务，并选择默认连接。</p></header>
+    <section class="api-default-strip glass-surface" data-glass data-glass-profile="panel" data-glass-radius="22" aria-live="polite">
+      <div><span class="eyebrow">DEFAULT CONNECTION</span><p id="apiDefaultSummary">尚未设置默认连接</p></div><span class="api-default-state" id="apiDefaultState">未配置</span>
+    </section>
+    <div class="api-list-head"><h2>已添加的连接</h2><button type="button" class="api-add-button" id="addApiProfile">＋ 添加连接</button></div>
+    <div id="apiProfiles"><div class="api-empty glass-surface" data-glass data-glass-profile="panel" data-glass-radius="22"><span class="eyebrow">YOUR CONNECTIONS</span><h3>还没有 API 连接</h3><p>可以分别添加 Claude、OpenAI 兼容服务，或自己的自定义网关。不同连接可以独立选择模型。</p></div></div>
+    <form id="apiProfileForm" class="api-profile-form glass-surface" data-glass data-glass-profile="panel" data-glass-radius="22" hidden>
+      <div class="api-form-head"><div><span class="eyebrow">CONNECTION PROFILE</span><h2 id="apiProfileFormTitle">添加 API 连接</h2></div><button type="button" class="api-text-button" id="apiProfileCancel">取消</button></div>
+      <label class="api-field"><span>连接名称</span><input id="apiProfileName" type="text" maxlength="40" placeholder="例如：Claude 主连接" required></label>
+      <label class="api-field"><span>接口协议</span><select id="apiProtocol"><option value="openai-compatible">OpenAI 兼容接口</option><option value="anthropic-messages">Anthropic Messages</option><option value="custom">自定义协议 / 网关</option></select></label>
+      <p class="api-protocol-hint" id="apiProtocolHint">适用于提供 OpenAI Chat Completions 兼容格式的服务。</p>
+      <label class="api-field"><span>API Base URL</span><input id="apiEndpoint" type="url" inputmode="url" placeholder="https://api.example.com/v1" required></label>
+      <p class="api-field-note">填写服务商提供的基础地址；具体请求路径由正式版的服务端适配器处理。</p>
+      <label class="api-field"><span>模型 ID</span><input id="apiModel" type="text" maxlength="120" placeholder="例如：claude-opus-4-6" required></label>
+      <label class="api-field api-secret-field"><span>API Key</span><input id="apiKey" type="password" placeholder="正式版由私有服务端安全管理" disabled aria-describedby="apiSecurityNote"></label>
+      <p class="api-security-note" id="apiSecurityNote">出于安全考虑，这个公开预览不会收集或保存密钥，也不会把密钥放进浏览器存储。正式连接时由私有服务端保管密钥并代理请求。</p>
+      <div class="api-form-actions"><button type="button" class="api-secondary-button" id="apiProfileTest">测试连接</button><button type="submit" class="api-primary-button" id="apiProfileSave">暂存到本页</button></div>
+      <p class="api-form-footnote">当前仅演示配置界面；暂存内容只存在于当前页面内存，刷新后清空。</p>
+    </form>
+    <section class="api-protocols" aria-labelledby="apiProtocolsTitle"><h2 id="apiProtocolsTitle">支持的连接方式</h2>
+      <div class="api-protocol-row"><span><strong>OpenAI 兼容</strong><small>适用于兼容 Chat Completions 的 API 服务</small></span><span class="api-protocol-mark">01</span></div>
+      <div class="api-protocol-row"><span><strong>Anthropic Messages</strong><small>适用于 Claude 原生 Messages 接口</small></span><span class="api-protocol-mark">02</span></div>
+      <div class="api-protocol-row"><span><strong>自定义网关</strong><small>为其他服务预留独立协议适配</small></span><span class="api-protocol-mark">03</span></div>
+    </section>
+  </div>
+</section>
 </div>
 
 <footer class="app-bottom" id="appBottom">

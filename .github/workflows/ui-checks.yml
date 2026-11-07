@@ -33,4 +33,6 @@ jobs:
         run: |
           if [ -f material-only/chat-preview.html ]; then
             node tests/check-material-only.cjs
+            node tests/check-api-connections.cjs
+            node --check material-only/api-connections.js
           fi

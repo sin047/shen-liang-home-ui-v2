@@ -1,0 +1,27 @@
+name: API connection UI browser preview
+on:
+  pull_request:
+    paths:
+      - "material-only/**"
+      - "tests/api-manager-browser-smoke.cjs"
+      - ".github/workflows/ui-api-preview.yml"
+permissions:
+  contents: read
+jobs:
+  browser-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Browser interaction smoke and desktop/iPhone-size screenshots
+        run: node tests/api-manager-browser-smoke.cjs
+      - name: Upload preview screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-connection-ui-preview-${{ github.event.pull_request.number }}
+          path: artifacts/api-connection-ui/*.png
+          if-no-files-found: error
+          retention-days: 14

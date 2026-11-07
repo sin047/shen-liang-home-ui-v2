@@ -17,7 +17,12 @@
     ".dock",                // original five-tab Dock
     ".home-continue",       // if legacy UI renders this element
     ".room-note",           // original Room/Letters note surfaces
-    ".room-call a"          // original call-return glass button
+    ".room-call a",         // original call-return glass button
+    ".api-default-strip",
+    ".api-connection-card",
+    ".api-connection-empty",
+    ".api-connection-add",
+    ".api-connection-dialog"
   ];
   const selector=activeSelectors.join(",");
   const info=document.createElement("div");
@@ -44,8 +49,9 @@
     for(const el of scene.querySelectorAll(selector)){
       if(el.dataset.glass!==undefined)continue;
       el.setAttribute("data-glass","");
-      const isBubble=el.classList.contains("bubble");
-      el.setAttribute("data-glass-profile",isBubble?"compact":el.classList.contains("room-note")?"panel":"control");
+      const isBubble=el.classList.contains("bubble")||el.classList.contains("api-connection-add");
+      const isPanel=el.matches(".room-note,.api-default-strip,.api-connection-card,.api-connection-empty,.api-connection-dialog");
+      el.setAttribute("data-glass-profile",isBubble?"compact":isPanel?"panel":"control");
       count++;
     }
     if(count)kit?.refresh();

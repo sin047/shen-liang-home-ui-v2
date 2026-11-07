@@ -29,12 +29,20 @@
 #app.glass-optical-ready .dock[data-glass],
 #app.glass-optical-ready .home-continue[data-glass],
 #app.glass-optical-ready .room-note[data-glass],
-#app.glass-optical-ready .room-call a[data-glass]{
+#app.glass-optical-ready .room-call a[data-glass],
+#app.glass-optical-ready .api-default-strip[data-glass],
+#app.glass-optical-ready .api-connection-card[data-glass],
+#app.glass-optical-ready .api-connection-empty[data-glass],
+#app.glass-optical-ready .api-connection-add[data-glass],
+#app.glass-optical-ready .api-connection-dialog[data-glass]{
   background:transparent!important;
   border-color:transparent!important;
   -webkit-backdrop-filter:none!important;
   backdrop-filter:none!important;
   box-shadow:none!important;
+}
+#app.glass-optical-ready .api-connection-dialog .api-dialog-actions{
+  background:transparent!important;
 }
 /* Debug mode must be opt-in and must not change V1 when off. */
 #glassDebugReadout[hidden]{display:none!important}

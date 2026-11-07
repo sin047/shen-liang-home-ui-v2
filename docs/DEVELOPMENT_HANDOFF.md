@@ -53,3 +53,15 @@
 - Screenshot artifact: [api-connection-ui-preview-8](https://github.com/sin047/shen-liang-home-ui-v2/actions/runs/42376619974/artifacts/13575494721), containing `api-connection-editor-desktop.png` (1440×1000 viewport) and `api-connection-editor-iphone.png` (390×844 viewport, DPR 3). Artifact retention is 14 days.
 - The preview branch remains at `066196c51e96330548502eaa4b6b644b71400388`; `main` remains at `9c863faa6945a1774b205501ec3679dd0bb668bb`. The PR is still Draft. No merge, Pages deployment, provider request or official Home change has occurred.
 - Remaining acceptance: inspect the two screenshots, then test the modal on actual iPhone Safari for keyboard overlap, scroll, safe areas, optical alignment and GPU fallback. Keep API credentials out of this public preview.
+
+
+## 2026-11-07 — API connection manager published to the existing material-only V1 preview
+
+- Owner clarified the deployment target: the existing public URL `/material-only/chat-preview.html#home`, not a separate preview site.
+- Verified Pages build/deployment history showed the site publishing from `preview/ui-v2-iphone`; PR #8 targeted this exact branch. No new Pages source or URL was introduced.
+- PR #8 was revalidated before merge: head `b70b9ef6e175895217a4328cbb0031d91c69eb70`, base branch head `066196c51e96330548502eaa4b6b644b71400388`, both required checks `smoke` and `browser-preview` successful, mergeable=true. Marked Ready and merged using expected head SHA protection.
+- Merge commit / new preview branch head: `815662c9a75d2b19c1387a26dd6879b6cd5e36aa`. PR #8 closed as merged. `main` remains `9c863faa6945a1774b205501ec3679dd0bb668bb` and was not modified.
+- GitHub Pages workflow run `42378399543` completed **success**; build, deploy and report-build-status jobs all succeeded. This is the existing branch-backed Pages deployment, not a separate site.
+- Public target remains: https://sin047.github.io/shen-liang-home-ui-v2/material-only/chat-preview.html#home
+- The API manager appears under the existing Room → Settings → 模型与连接 route. No Dock or main-page layout change; no real provider requests or secret persistence. Do not enter real API keys on this public preview.
+- Automated Chromium interaction checks and screenshot artifact remain the evidence for browser behavior; real iPhone Safari keyboard/safe-area/scroll/WebGL acceptance is still pending owner device review.

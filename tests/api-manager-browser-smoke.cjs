@@ -17,10 +17,13 @@ fs.mkdirSync(artifactDir, { recursive: true });
 const child = spawn(chrome, [
   "--headless=new", "--no-sandbox", "--disable-dev-shm-usage",
   "--enable-webgl", "--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader",
-  "--hide-scrollbars", "--remote-debugging-port=0", "--remote-allow-origins=*", "--allow-file-access-from-files", "--no-first-run",
+  "--hide-scrollbars", "--remote-debugging-port=9222", "--remote-debugging-address=127.0.0.1", "--remote-allow-origins=*", "--allow-file-access-from-files", "--no-first-run",
   "--disable-background-networking", "--disable-extensions",
   "--user-data-dir=" + profileDir, "about:blank"
-], { stdio: "ignore" });
+], { stdio: ["ignore", "ignore", "pipe"] });
+let chromeStderr = "";
+child.stderr.setEncoding("utf8");
+child.stderr.on("data", (chunk) => { chromeStderr = (chromeStderr + chunk).slice(-4000); });
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 let socket = null;
@@ -78,10 +81,12 @@ async function capture(name) {
 
 async function main() {
   try {
-    const activeFile = path.join(profileDir, "DevToolsActivePort");
-    await waitFor(() => fs.existsSync(activeFile), "Chrome DevTools endpoint");
-    const [port] = fs.readFileSync(activeFile, "utf8").trim().split(/\r?\n/);
-    const targets = await fetch("http://127.0.0.1:" + port + "/json/list").then((response) => response.json());
+    const endpoint = "http://127.0.0.1:9222/json/list";
+    await waitFor(async () => {
+      if (child.exitCode !== null) throw new Error("Chrome exited: " + chromeStderr);
+      try { const response = await fetch(endpoint); return response.ok; } catch { return false; }
+    }, "Chrome DevTools endpoint");
+    const targets = await fetch(endpoint).then((response) => response.json());
     const page = targets.find((target) => target.type === "page");
     assert.ok(page?.webSocketDebuggerUrl, "Chrome page target not found");
     socket = await connectSocket(page.webSocketDebuggerUrl);

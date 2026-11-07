@@ -30,3 +30,14 @@
 - Kit 0.5 optical files unchanged. CSS layout independent from material adapter.
 - Layout is a structural parity step, **not final visual approval or Safari test**; read docs/UI_V1_LAYOUT_PARITY.md for the known missing original features.
 - No merge, GitHub Pages deployment or original Home repo modification.
+
+
+## 2026-11-07 — API and model settings UI prototype
+
+- Branch: `feat/api-provider-settings`, based on the exact Home/Chat fidelity correction head `dd4f895ea81ec962c8bf7e63507eb092c6ee016f`; stacked review only.
+- Adds a full Settings route from Room's existing `···` entry and a nested `#settings/api` route. The five-item Dock remains unchanged; Settings marks Room as the active destination.
+- API UI supports separate in-memory profile metadata for OpenAI-compatible, Anthropic Messages and custom gateways, with name, base URL, model ID, default selection, edit and remove interactions.
+- Public preview intentionally disables API-key entry and performs no provider/network calls or browser persistence. “Test connection” explains that a future private server adapter must perform the request. Profile metadata is volatile and cleared on refresh.
+- Formal integration must keep secrets server-side, expose only non-secret profile identifiers to the browser, and implement provider-specific request paths, headers, versioning and error normalization in private server adapters.
+- Glass Kit 0.5 source remains unchanged. No Pages deployment, merge, real API connection, backend change or secret handling is included.
+- Verify with `node --check src/app.js`, `node tests/check-preview.cjs`, then compare Settings/API screenshots against the owner-provided iPhone Settings baseline.

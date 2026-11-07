@@ -39,3 +39,8 @@ This is a **selective reconstruction of structure and safe interactions**, not a
 7. Dialog overlays, reduced motion, screen reader and focus behavior.
 
 **No claim of full behavioral parity or final visual/device acceptance.**
+
+
+## Home/Chat fidelity correction
+
+A source-derived pass on `fix/v1-home-chat-fidelity` corrects extra Home hero content, Today headings/checkboxes/row heights, Chat width and message rhythm, and developer-toolbar intrusion. See `docs/UI_V1_FIDELITY_AUDIT.md`. Optical Shader remains byte-identical. This **does not** yet establish 1:1 layout equivalence, and the public Pages branch is intentionally unchanged until review.

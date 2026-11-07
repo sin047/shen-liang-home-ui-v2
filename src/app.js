@@ -5,8 +5,8 @@
   const $=id=>document.getElementById(id);
   const root=$("glass-scene"),foreground=$("appContent"),scroll=$("contentScroll");
   const glass=window.homeGlassPreview;
-  const pages=["home","chat","together","reading","room","memory"];
-  const friendly={home:"Home",chat:"Chat",together:"Together",reading:"Reading",room:"Room",memory:"Memory"};
+  const pages=["home","chat","together","reading","room","memory","settings"];
+  const friendly={home:"Home",chat:"Chat",together:"Together",reading:"Reading",room:"Room",memory:"Memory",settings:"Settings"};
   const articleTitles={"sample-one":"关于一些缓慢的下午","sample-two":"留一盏小灯","sample-three":"晴天的边缘"};
   const activityCopy={listen:"一起听一首歌。正式活动会使用独立的会话和适配器。",play:"一起玩点什么。这里暂时保留页面和互动入口。",watch:"挑一部想看的电影。现在只验证页面结构与玻璃层级。"};
   let lastPage="home",chatPosition=0,stress=false,avatarUrl=null,attachmentUrl=null,attachmentFile=null;
@@ -70,6 +70,9 @@
     $("roomArchive").hidden=!archive||documentPage;
     $("roomDocument").hidden=!documentPage;
     if(documentPage)$("roomDocumentTitle").textContent=path[2]==="world"?"World":"Prompt";
+    const apiView=path[0]==="settings"&&path[1]==="api";
+    $("settingsOverview").hidden=apiView;
+    $("apiSettingsView").hidden=!apiView;
   }
   function route(){
     const path=decodeURIComponent(location.hash.slice(1)||"home").toLowerCase().split("/");
@@ -79,7 +82,7 @@
     lastPage=page;
     root.dataset.page=page;
     for(const node of document.querySelectorAll(".page"))node.hidden=node.id!==page+"Page";
-    const dock=page==="memory"?"room":page;
+    const dock=page==="memory"||page==="settings"?"room":page;
     for(const link of document.querySelectorAll(".bottom-dock .tab")){
       if(link.dataset.page===dock)link.setAttribute("aria-current","page");
       else link.removeAttribute("aria-current");
@@ -95,7 +98,8 @@
   $("homeSearchButton").addEventListener("click",()=>{openDialog("homeSearchDialog");renderSearch();});
   $("readingSearchButton").addEventListener("click",()=>{openDialog("homeSearchDialog");renderSearch();});
   $("appearance").addEventListener("click",()=>openDialog("appearanceDialog"));
-  $("roomSettings").addEventListener("click",()=>openDialog("appearanceDialog"));
+  $("roomSettings").addEventListener("click",()=>{location.hash="settings";});
+  $("settingsAppearance").addEventListener("click",()=>openDialog("appearanceDialog"));
   $("conversationOpen").addEventListener("click",()=>openDialog("conversationDialog"));
   $("resumeConversation").addEventListener("click",()=>{$("conversationDialog").close();location.hash="chat";});
   $("callOpen").addEventListener("click",()=>openDialog("callDialog"));
@@ -330,6 +334,87 @@
       if(image.src.startsWith("blob:"))URL.revokeObjectURL(image.src);
     }
   });
+
+  // Public-only API settings prototype. Profile metadata stays in memory; no keys or requests.
+  const apiProfiles=[];
+  let defaultApiProfileId=null,editingApiProfileId=null,apiProfileSequence=0;
+  const apiProtocolLabels={"openai-compatible":"OpenAI 兼容接口","anthropic-messages":"Anthropic Messages","custom":"自定义协议 / 网关"};
+  function updateApiSummary(){
+    const current=apiProfiles.find(profile=>profile.id===defaultApiProfileId);
+    $("apiDefaultSummary").textContent=current?current.name+" · "+current.model:"尚未设置默认连接";
+    $("apiDefaultState").textContent=current?"本页默认":"未配置";
+    $("apiSettingsSummary").textContent=current?apiProfiles.length+" 条连接":"尚未配置";
+  }
+  function renderApiProfiles(){
+    const list=$("apiProfiles");list.replaceChildren();
+    if(!apiProfiles.length){
+      const empty=document.createElement("div");empty.className="api-empty glass-surface";
+      empty.dataset.glass="";empty.dataset.glassProfile="panel";empty.dataset.glassRadius="22";
+      const eyebrow=document.createElement("span");eyebrow.className="eyebrow";eyebrow.textContent="YOUR CONNECTIONS";
+      const title=document.createElement("h3");title.textContent="还没有 API 连接";
+      const description=document.createElement("p");description.textContent="可以分别添加 Claude、OpenAI 兼容服务，或自己的自定义网关。不同连接可以独立选择模型。";
+      empty.append(eyebrow,title,description);list.append(empty);
+    }else{
+      for(const profile of apiProfiles){
+        const card=document.createElement("article");card.className="api-profile-card glass-surface"+(profile.id===defaultApiProfileId?" is-default":"");
+        card.dataset.glass="";card.dataset.glassProfile="panel";card.dataset.glassRadius="22";
+        const head=document.createElement("div");head.className="api-profile-head";
+        const identity=document.createElement("div");
+        const name=document.createElement("h3");name.textContent=profile.name;
+        const protocol=document.createElement("span");protocol.className="api-protocol-label";protocol.textContent=apiProtocolLabels[profile.protocol]||apiProtocolLabels.custom;
+        identity.append(name,protocol);
+        const status=document.createElement("span");status.className="api-profile-status";status.textContent=profile.id===defaultApiProfileId?"默认 · 仅预览":"仅预览";
+        head.append(identity,status);
+        const model=document.createElement("p");model.className="api-profile-model";model.textContent=profile.model;
+        const endpoint=document.createElement("p");endpoint.className="api-profile-endpoint";endpoint.textContent=profile.endpoint;
+        const actions=document.createElement("div");actions.className="api-profile-actions";
+        const defaultButton=document.createElement("button");defaultButton.type="button";defaultButton.textContent=profile.id===defaultApiProfileId?"当前默认":"设为默认";defaultButton.disabled=profile.id===defaultApiProfileId;
+        defaultButton.addEventListener("click",()=>{defaultApiProfileId=profile.id;renderApiProfiles();notify("默认连接已更新，仅在当前预览生效。");});
+        const editButton=document.createElement("button");editButton.type="button";editButton.textContent="编辑";editButton.addEventListener("click",()=>showApiProfileForm(profile));
+        const removeButton=document.createElement("button");removeButton.type="button";removeButton.textContent="移除";
+        removeButton.addEventListener("click",()=>{apiProfiles.splice(apiProfiles.findIndex(item=>item.id===profile.id),1);if(defaultApiProfileId===profile.id)defaultApiProfileId=apiProfiles[0]?.id||null;renderApiProfiles();notify("已从当前预览移除。");});
+        actions.append(defaultButton,editButton,removeButton);card.append(head,model,endpoint,actions);list.append(card);
+      }
+    }
+    updateApiSummary();glass.refresh();
+  }
+  function updateApiProtocolHint(){
+    const protocol=$("apiProtocol").value;
+    const hints={
+      "openai-compatible":"适用于兼容 Chat Completions 格式的服务；正式版由服务端适配具体请求路径。",
+      "anthropic-messages":"适用于 Claude 原生 Messages 接口；正式版由服务端处理版本头与认证格式。",
+      "custom":"为其他服务预留；正式版需要对应的服务端协议适配器。"
+    };
+    $("apiProtocolHint").textContent=hints[protocol]||hints.custom;
+  }
+  function showApiProfileForm(profile){
+    editingApiProfileId=profile?.id||null;
+    $("apiProfileFormTitle").textContent=profile?"编辑 API 连接":"添加 API 连接";
+    $("apiProfileName").value=profile?.name||"";
+    $("apiProtocol").value=profile?.protocol||"openai-compatible";
+    $("apiEndpoint").value=profile?.endpoint||"";
+    $("apiModel").value=profile?.model||"";
+    $("apiKey").value="";
+    updateApiProtocolHint();$("apiProfileForm").hidden=false;
+    $("apiProfileForm").scrollIntoView({behavior:"smooth",block:"start"});glass.refresh();
+  }
+  function closeApiProfileForm(){
+    $("apiProfileForm").reset();$("apiProfileForm").hidden=true;$("apiKey").value="";
+    editingApiProfileId=null;updateApiProtocolHint();glass.refresh();
+  }
+  $("addApiProfile").addEventListener("click",()=>showApiProfileForm(null));
+  $("apiProfileCancel").addEventListener("click",closeApiProfileForm);
+  $("apiProtocol").addEventListener("change",updateApiProtocolHint);
+  $("apiProfileTest").addEventListener("click",()=>notify("公开预览不会发送网络请求；正式版连接测试将由私有服务端代理执行。"));
+  $("apiProfileForm").addEventListener("submit",event=>{
+    event.preventDefault();
+    const profile={id:editingApiProfileId||"preview-"+(++apiProfileSequence),name:$("apiProfileName").value.trim(),protocol:$("apiProtocol").value,endpoint:$("apiEndpoint").value.trim().replace(/\/+$/,""),model:$("apiModel").value.trim()};
+    if(editingApiProfileId){const index=apiProfiles.findIndex(item=>item.id===editingApiProfileId);if(index>=0)apiProfiles[index]=profile;}
+    else{apiProfiles.push(profile);if(!defaultApiProfileId)defaultApiProfileId=profile.id;}
+    closeApiProfileForm();renderApiProfiles();notify("配置已暂存到当前页面；刷新后会清空。");
+  });
+  updateApiProtocolHint();updateApiSummary();
+
   glass.mount();
   if(!location.hash)location.hash="home";
   route();

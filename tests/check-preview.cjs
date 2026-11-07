@@ -27,13 +27,25 @@ const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(x=>x[1]);
 assert.equal(new Set(ids).size,ids.length,"Duplicate HTML IDs");
 for(const name of [...app.matchAll(/\$\("([^"]+)"\)/g)].map(x=>x[1]))
   assert.ok(ids.includes(name),"Missing ID "+name);
-for(const name of ["home","chat","together","reading","room","memory"])
+for(const name of ["home","chat","together","reading","room","memory","settings"])
   assert.match(html,new RegExp('id="'+name+'Page"'));
 const nav=html.slice(html.indexOf('<nav class="bottom-dock'),html.indexOf("</nav>",html.indexOf('<nav class="bottom-dock')));
 assert.deepEqual([...nav.matchAll(/data-page="([^"]+)"/g)].map(x=>x[1]),["home","chat","together","reading","room"]);
 assert.doesNotMatch(nav,/memory/i);
 assert.match(html,/href="#room\/archive\/memory"/);
 assert.match(html,/id="contentScroll"/);
+assert.ok(html.includes('id="apiSettingsView"'));
+assert.ok(html.includes('id="apiProfileForm"'));
+assert.ok(html.includes('id="apiProtocol"'));
+assert.ok(html.includes('id="apiKey"')&&html.includes('disabled aria-describedby="apiSecurityNote"'));
+assert.ok(html.includes('href="#settings/api"'));
+assert.ok(html.includes("./src/styles/settings-api.css"));
+assert.match(app,/apiProfiles/);
+assert.match(app,/公开预览不会发送网络请求/);
+const settingsStyles=read("src/styles/settings-api.css");
+assert.match(settingsStyles,/\.settings-page/);
+assert.match(settingsStyles,/\.api-profile-card/);
+
 assert.match(html,/id="wallpaper"/);
 assert.match(html,/id="closeDiagnostics"/);
 assert.match(html,/name="viewport"[^>]*viewport-fit=cover/);

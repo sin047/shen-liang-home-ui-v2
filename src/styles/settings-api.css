@@ -1,0 +1,67 @@
+/*
+ * Settings and API provider editor: restrained editorial rows, matching the
+ * existing mist-gray Home UI. The optical surfaces remain Glass Kit targets.
+ */
+.settings-page{max-width:690px;padding:calc(25px + var(--safe-top)) 28px 38px;line-height:1.8}
+.settings-heading{margin:7px 0 32px}
+.settings-heading h1{font:300 32px/1.2 Georgia,serif;letter-spacing:-.5px;margin:9px 0 8px;color:var(--ui-ink)}
+.settings-heading p{margin:0;max-width:34em}
+.settings-section{margin:27px 0 0}
+.settings-section>h2,.api-list-head h2,.api-protocols>h2{font-size:11px;font-weight:500;letter-spacing:1px;color:var(--ui-muted);margin:0 0 8px}
+.settings-row{width:100%;min-height:72px;padding:13px 2px;display:grid;grid-template-columns:minmax(0,1fr) auto 13px;gap:13px;align-items:center;text-align:left;color:inherit;text-decoration:none;background:transparent;border:0;border-bottom:1px solid #ffffff98}
+.settings-row>span:first-child{min-width:0}
+.settings-row strong,.settings-row small{display:block}
+.settings-row strong{font-size:13px;font-weight:450}
+.settings-row small{font-size:11px;color:var(--ui-muted);margin-top:2px}
+.settings-row>svg{width:12px;transform:rotate(-90deg);color:var(--ui-muted)}
+.settings-row-meta{font-size:10px;color:var(--ui-muted);white-space:nowrap}
+.settings-row.is-static{cursor:default}
+.settings-row.is-static>span:first-child{grid-column:1}
+.settings-row.is-static .settings-row-meta{grid-column:2}
+.api-heading{margin-bottom:22px}
+.api-default-strip{padding:16px 18px;margin:0 0 25px;border-radius:22px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.api-default-strip p{font-size:13px;margin:5px 0 0;color:var(--ui-ink)}
+.api-default-state{font-size:10px;white-space:nowrap;color:var(--ui-muted);border:1px solid #b8c8c2;border-radius:99px;padding:4px 9px}
+.api-list-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px}
+.api-list-head h2{margin:0}
+.api-add-button,.api-primary-button,.api-secondary-button{border:1px solid #b7c8c1;border-radius:999px;padding:9px 14px;font-size:11px;color:var(--ui-ink);background:#ffffff8c}
+.api-add-button{white-space:nowrap}
+.api-empty{padding:25px 20px;border-radius:22px}
+.api-empty h3{font:400 19px Georgia,serif;margin:10px 0 7px}
+.api-empty p{font-size:12px;line-height:1.8;color:var(--ui-muted);margin:0;max-width:34em}
+.api-profile-card{padding:17px 17px 13px;border-radius:22px;margin:0 0 11px}
+.api-profile-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.api-profile-head h3{font-size:14px;font-weight:500;margin:0 0 3px;overflow-wrap:anywhere}
+.api-protocol-label{font-size:10px;color:var(--ui-muted)}
+.api-profile-status{font-size:9px;white-space:nowrap;color:#647c70;border:1px solid #b8c8c0;border-radius:99px;padding:3px 8px}
+.api-profile-model{font-size:13px;margin:13px 0 3px;overflow-wrap:anywhere}
+.api-profile-endpoint{font-size:10px;color:var(--ui-muted);margin:0;overflow-wrap:anywhere}
+.api-profile-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:13px;padding-top:10px;border-top:1px solid #ffffff8c}
+.api-profile-actions button,.api-text-button{border:0;background:transparent;color:var(--ui-muted);font-size:10px;padding:7px 8px;border-radius:10px}
+.api-profile-actions button:disabled{color:var(--ui-ink);font-weight:600;opacity:1}
+.api-profile-form{padding:18px;margin:17px 0 26px;border-radius:22px}
+.api-form-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:17px}
+.api-form-head h2{font:400 19px Georgia,serif;margin:5px 0 0}
+.api-field{display:block;margin:15px 0 0}
+.api-field>span{display:block;font-size:11px;color:var(--ui-muted);margin-bottom:6px}
+.api-field input,.api-field select{width:100%;min-height:43px;padding:10px 12px;border:1px solid #b9c9c3;border-radius:13px;background:#ffffff75;color:var(--ui-ink);font-size:13px;outline-offset:3px}
+.api-field input::placeholder{color:#8b9691}
+.api-field input:disabled{opacity:.72;background:#e3e9e6;color:#7e8b85}
+.api-field-note,.api-protocol-hint{font-size:10px;line-height:1.7;color:var(--ui-muted);margin:6px 1px 0}
+.api-protocol-hint{padding:9px 11px;border-left:1px solid #a7bbb2;margin-top:9px}
+.api-security-note{font-size:10px;line-height:1.75;color:var(--ui-muted);margin:10px 1px 0}
+.api-form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+.api-primary-button{background:#dbe5e0;border-color:#a9bdb3;font-weight:600}
+.api-form-footnote{font-size:9px;line-height:1.7;color:var(--ui-muted);margin:10px 0 0}
+.api-protocols{margin:29px 0 0}
+.api-protocol-row{display:flex;align-items:center;justify-content:space-between;gap:15px;min-height:65px;padding:12px 2px;border-bottom:1px solid #ffffff98}
+.api-protocol-row strong,.api-protocol-row small{display:block}
+.api-protocol-row strong{font-size:12px;font-weight:450}
+.api-protocol-row small{font-size:10px;color:var(--ui-muted);margin-top:3px}
+.api-protocol-mark{font-size:10px;letter-spacing:1px;color:#98a6a0}
+@media(max-width:380px){
+ .settings-page{padding-left:21px;padding-right:21px}
+ .api-default-strip{padding:14px}
+ .api-profile-card,.api-profile-form{padding:15px}
+ .api-profile-head{gap:8px}
+}

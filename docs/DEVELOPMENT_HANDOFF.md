@@ -42,3 +42,14 @@
 - Added a separate API stylesheet/script import and extended only the material-only target selector list so the new Settings surfaces can use Glass Kit 0.5. The original sanitized V1 HTML body, 49,240-character inline CSS, five Dock items, page structures, and Glass Kit engine source remain byte-identical.
 - Validation: `node --check` for the new browser script; `tests/check-material-only.cjs` proves exact V1 baseline plus imports; `tests/check-api-connections.cjs` checks controls, no network/storage/logging, responsive/safe-area rules and unchanged engine SHA. GitHub Actions renders desktop/iPhone-size preview screenshots as a PR artifact only; no Pages deploy step is part of this feature.
 - No merge, Pages deployment, real API request, backend/Canonical/Home repo change, or secret handling. Wait for owner visual and interaction acceptance.
+
+
+## 2026-11-07 — PR #8 API manager verification snapshot
+
+- Draft PR: [#8](https://github.com/sin047/shen-liang-home-ui-v2/pull/8), base `preview/ui-v2-iphone` at `066196c51e96330548502eaa4b6b644b71400388`. Implementation commit `219e75a9675ebd55d9bbbe79b6558ddaa689aaaf`; browser harness correction `7a1dc304a87cfa810ea5ecfec27ed82e7e9425d7`.
+- Final PR-head checks: UI smoke `42376619855` **success**; browser preview `42376619974` **success**.
+- Chromium interaction coverage passed: add/edit/delete, multiple protocols, default/enabled, key show/hide, key preservation without prefill, simulated loading/success/failure, cancel and key-field clearing.
+- The screenshot browser reports the Glass Kit WebGL path as `gpu`. This is a headless Chromium result, **not** evidence of iPhone hardware-GPU or Safari acceptance.
+- Screenshot artifact: [api-connection-ui-preview-8](https://github.com/sin047/shen-liang-home-ui-v2/actions/runs/42376619974/artifacts/13575494721), containing `api-connection-editor-desktop.png` (1440×1000 viewport) and `api-connection-editor-iphone.png` (390×844 viewport, DPR 3). Artifact retention is 14 days.
+- The preview branch remains at `066196c51e96330548502eaa4b6b644b71400388`; `main` remains at `9c863faa6945a1774b205501ec3679dd0bb668bb`. The PR is still Draft. No merge, Pages deployment, provider request or official Home change has occurred.
+- Remaining acceptance: inspect the two screenshots, then test the modal on actual iPhone Safari for keyboard overlap, scroll, safe areas, optical alignment and GPU fallback. Keep API credentials out of this public preview.

@@ -30,3 +30,15 @@
 - Kit 0.5 optical files unchanged. CSS layout independent from material adapter.
 - Layout is a structural parity step, **not final visual approval or Safari test**; read docs/UI_V1_LAYOUT_PARITY.md for the known missing original features.
 - No merge, GitHub Pages deployment or original Home repo modification.
+
+
+## 2026-11-07 — API connection manager modal on the material-only V1 baseline
+
+- Base: `preview/ui-v2-iphone` at `066196c51e96330548502eaa4b6b644b71400388` (PR #6 merged to this preview branch; `main` remains `9c863faa6945a1774b205501ec3679dd0bb668bb`).
+- Feature branch: `feat/api-connection-manager-modal`. The previous `feat/api-provider-settings` prototype is on the separate `fix/v1-home-chat-fidelity` line; it is not copied wholesale because that line has a different UI baseline and its key field is disabled/inline.
+- Existing V1 Room → Settings → 模型与连接 route was present but its detail page was a placeholder. This change fills that existing route; no new Dock item, route family, or main-page layout is added.
+- The connection editor is one reusable responsive dialog: centered desktop modal and iPhone bottom sheet with safe-area/VisualViewport sizing and a scrollable form. Supports multiple profiles, OpenAI-compatible / Anthropic Messages / custom protocol, Base URL, model ID, password API Key show/hide, enabled/default state, edit/delete, local simulated test states, and collapsed advanced request path/protocol/timeout/provider parameters.
+- API Key and profile metadata are kept only in the current page's JS memory. The public preview sends no requests, uses no browser storage/URL/logging, clears key references on pagehide, and warns not to enter real keys. Test success means local field validation only, never a provider connection.
+- Added a separate API stylesheet/script import and extended only the material-only target selector list so the new Settings surfaces can use Glass Kit 0.5. The original sanitized V1 HTML body, 49,240-character inline CSS, five Dock items, page structures, and Glass Kit engine source remain byte-identical.
+- Validation: `node --check` for the new browser script; `tests/check-material-only.cjs` proves exact V1 baseline plus imports; `tests/check-api-connections.cjs` checks controls, no network/storage/logging, responsive/safe-area rules and unchanged engine SHA. GitHub Actions renders desktop/iPhone-size preview screenshots as a PR artifact only; no Pages deploy step is part of this feature.
+- No merge, Pages deployment, real API request, backend/Canonical/Home repo change, or secret handling. Wait for owner visual and interaction acceptance.

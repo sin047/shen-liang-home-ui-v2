@@ -35,3 +35,9 @@ To check GPU explicitly, append ?glassDebug=1 before the hash, e.g. /material-on
 ## No reimplementation
 
 Do not port the rewritten V2 layout into this folder. Do not change the original V1 inline CSS, DOM, or inline scripts to make the glass easier. Improve only the material-only adapter, its lens targets and optical alignment. No official Home repository, frozen files, private backend or main branch change.
+
+## API connection manager extension (2026-11-07)
+
+The existing Room → Settings → 模型与连接 detail route is now populated by a separate `api-connections.js` / `api-connections.css` layer. The original Room Settings route and placeholder are left in the frozen HTML; the extension fills the placeholder at runtime. The add/edit editor is a responsive modal and uses the same Glass Kit 0.5 optical material. The existing Glass Kit engine remains unchanged; only the material-only target selector list includes the new API surfaces.
+
+See [API_CONNECTION_MANAGER.md](./API_CONNECTION_MANAGER.md) for UI controls, ephemeral-key handling, simulated test behavior, browser smoke checks and screenshot artifact details. This remains a public front-end prototype; do not enter real API keys and do not treat the simulated test as a provider connection.
